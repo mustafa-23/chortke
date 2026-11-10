@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="Chortke.UI.Views.FooterView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:Chortke.UI.ViewModels"
+             xmlns:local="clr-namespace:Chortke.UI.Views"
+             d:DataContext="{d:DesignInstance Type=vm:FooterViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="40" d:DesignWidth="800">
+    <Border Background="{DynamicResource Brushes.Secondary}" BorderThickness="0,2,0,0">
+        <Grid>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Label Content="داده ها بر اساس سال" VerticalAlignment="Center"/>
+                <ComboBox ItemsSource="{Binding DBFiles}" MinWidth="70" VerticalAlignment="Center"
+                  SelectedItem="{Binding SelectedDBFile}"/>
+            </StackPanel>
+            <TextBlock HorizontalAlignment="Right" Text="v1.2.0" VerticalAlignment="Center" Margin="0,0,16,0"/>
+        </Grid>
+    </Border>
+</UserControl>

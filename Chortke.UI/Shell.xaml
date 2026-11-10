@@ -1,0 +1,71 @@
+﻿<Window x:Class="Chortke.UI.Shell"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:c="clr-namespace:Chortke.Common"
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:dxui="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+        WindowStyle="None"
+        Background="Transparent"
+        AllowsTransparency="True"
+        mc:Ignorable="d"
+        Height="768" Width="1024"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResizeWithGrip"
+        FontFamily="Vazir FD-WOL"
+        FlowDirection="LeftToRight"
+        DataContext="{x:Static c:MyModuleManager.Instance}">
+
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup x:Name="TopmostStates">
+            <VisualState x:Name="Visible">
+                <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DimBorder"
+                                                   Storyboard.TargetProperty="Visibility">
+                        <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                    </ObjectAnimationUsingKeyFrames>
+                    <DoubleAnimation Storyboard.TargetName="DimBorder"
+                                     Storyboard.TargetProperty="Opacity"
+                                     From="0" To="1" Duration="0:0:0.2"/>
+                </Storyboard>
+            </VisualState>
+            <VisualState x:Name="Hidden">
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="DimBorder"
+                                     Storyboard.TargetProperty="Opacity"
+                                     From="1"  To="0" Duration="0:0:0.2"/>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DimBorder"
+                                                   Storyboard.TargetProperty="Visibility">
+                        <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{x:Static Visibility.Collapsed}"/>
+                    </ObjectAnimationUsingKeyFrames>
+                </Storyboard>
+            </VisualState>
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+
+    <Grid FlowDirection="{DynamicResource FlowDir}">
+        <Border x:Name="Border" Background="{StaticResource Brushes.Primary}"
+                BorderBrush="#454545" BorderThickness="1"
+                Margin="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel dxui:UIRegion.Region="{x:Static c:Regions.Header}"/>
+                <Grid dxui:UIRegion.Region="{x:Static c:Regions.Main}" Grid.Row="1"/>
+                <StackPanel dxui:UIRegion.Region="{x:Static c:Regions.Footer}" Grid.Row="2"/>
+            </Grid>
+        </Border>
+        <Border x:Name="DimBorder" Visibility="Collapsed" Margin="{Binding Margin,ElementName=Border}">
+            <Border.Background>
+                <SolidColorBrush Color="Black" Opacity="0.3"/>
+            </Border.Background>
+            <Grid x:Name="TopPanel" dxui:UIRegion.Region="{x:Static c:Regions.Topmost}"/>
+        </Border>
+    </Grid>
+
+</Window>

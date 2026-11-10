@@ -1,0 +1,64 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:s="clr-namespace:System;assembly=System.Runtime">
+
+    <FlowDirection x:Key="FlowDir">LeftToRight</FlowDirection>
+
+    <!--#region Menus -->
+    <s:String x:Key="Menu_File">File</s:String>
+    <s:String x:Key="Menu_File_Close">Close</s:String>
+
+    <s:String x:Key="Menu_Action">Action</s:String>
+    <s:String x:Key="Menu_Action_CloseBooks">Close Books</s:String>
+
+    <s:String x:Key="Menu_Accounting">Accounting</s:String>
+    <s:String x:Key="Menu_Accounting_Books">Books</s:String>
+    <s:String x:Key="Menu_Accounting_Docs">Documents</s:String>
+    <s:String x:Key="Menu_Accounting_NewDoc">New Document...</s:String>
+    <s:String x:Key="Menu_Accounting_BookReport">Book Report</s:String>
+    <s:String x:Key="Menu_Accounting_Bill">Bill</s:String>
+
+    <s:String x:Key="Menu_Tools">Tools</s:String>
+    <s:String x:Key="Menu_Tools_Clear">Clear All Data</s:String>
+    <s:String x:Key="Menu_Tools_UseDarkTheme">Use Dark Mode</s:String>
+
+    <s:String x:Key="Menu_Help">Help</s:String>
+    <s:String x:Key="Menu_Help_About">About</s:String>
+    
+    <!--#endregion-->
+
+    <s:String x:Key="Home">Home</s:String>
+
+    <s:String x:Key="Delete">Delete</s:String>
+    <s:String x:Key="Save">Save</s:String>
+    <s:String x:Key="Apply">Apply</s:String>
+    <s:String x:Key="Add">Add</s:String>
+    <s:String x:Key="Cancel">Cancel</s:String>
+    <s:String x:Key="Yes">Yes</s:String>
+    <s:String x:Key="No">No</s:String>
+    <s:String x:Key="Edit">Edit</s:String>
+    <s:String x:Key="Calculate">Calculate</s:String>
+
+
+    <s:String x:Key="Book">دفتر حسابداری</s:String>
+    <s:String x:Key="Book_Name">عنوان دفتر</s:String>
+    <s:String x:Key="Book_InitialAmount">Initial Amount</s:String>
+    
+    <s:String x:Key="Articles">Articles</s:String>
+    <s:String x:Key="Desc">Desc</s:String>
+    <s:String x:Key="Debit">Debit</s:String>
+    <s:String x:Key="Credit">Credit</s:String>
+    <s:String x:Key="ShortDebit">Debit</s:String>
+    <s:String x:Key="ShortCredit">Credit</s:String>
+    
+    <s:String x:Key="Loading">Loading...</s:String>
+
+    <!--#region Document strings -->
+    <s:String x:Key="Documents">Documents</s:String>
+    <s:String x:Key="Document">Document</s:String>
+    <s:String x:Key="DocumentDeleteMessage">Do you really want to delete document with id '{0}'?</s:String>
+    <!--#endregion-->
+
+    <s:String x:Key="UndoneMessage">This process can not be undone</s:String>
+
+</ResourceDictionary>

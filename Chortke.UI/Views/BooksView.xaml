@@ -1,0 +1,170 @@
+﻿<UserControl x:Class="Chortke.UI.Views.BooksView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c="clr-namespace:Chortke.Common"
+             xmlns:uc="clr-namespace:Chortke.UserControls"
+             xmlns:vm="clr-namespace:Chortke.UI.ViewModels"
+             xmlns:m="clr-namespace:Chortke.Models"
+             xmlns:wpf="clr-namespace:Moonlight.WPF;assembly=Moonlight"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             x:Name="root"
+             d:DataContext="{d:DesignInstance Type=vm:BooksViewModel}">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="Article.ListTemplate" DataType="m:ArticleModel">
+            <Border x:Name="Border" CornerRadius="8" Margin="2,4" Height="36">
+                <Grid VerticalAlignment="Center" Margin="16,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="index" Text="{Binding (ItemsControl.AlternationIndex),RelativeSource={RelativeSource TemplatedParent}}"
+                               Visibility="Collapsed"/>
+                    <c:TypeTextView Style="{StaticResource Text.DisplayField}" FontSize="14"
+                                    Type="DateAndTime" RawText="{Binding CreateDate}"/>
+                    <TextBlock Grid.Column="1" Text="{Binding BookId,Converter={StaticResource Title.FromId}}" FontSize="12"
+                               Foreground="Gray" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Column="2" Text="{Binding Description}" FontSize="14" TextTrimming="CharacterEllipsis"/>
+                    <c:TypeTextView Grid.Column="3" Style="{StaticResource Text.Credit}" 
+                                    Type="Money" RawText="{Binding Amount}"
+                                    Visibility="{Binding IsCredit,Converter={StaticResource Visibility.FromBool}}"/>
+                    <c:TypeTextView Grid.Column="4" Style="{StaticResource Text.Debit}" 
+                                    Type="Money" RawText="{Binding Amount}"
+                                    Visibility="{Binding IsDebit,Converter={StaticResource Visibility.FromBool}}"/>
+                </Grid>
+            </Border>
+            <DataTemplate.Triggers>
+                <Trigger SourceName="index" Property="Text" Value="0">
+                    <Setter TargetName="Border" Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Color="White" Opacity="0.2"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid Margin="0,2,0,0" Visibility="{Binding Visibility}"
+          Background="{StaticResource Brushes.Primary}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition />
+            <ColumnDefinition Width="290"/>
+        </Grid.ColumnDefinitions>
+
+        <!--#region Toolbar -->
+        <Border Background="{StaticResource Brushes.Secondary}">
+            <StackPanel Margin="0,8,0,0">
+                <Button Style="{StaticResource Button.Toolbar}" Content="{StaticResource ic_add-circle}"
+                        ToolTip="{DynamicResource Add}" Command="{Binding AddBookCommand}"
+                        Padding="10"/>
+                <Button Style="{StaticResource Button.Toolbar}"
+                        Content="{StaticResource ic_trash}" ToolTip="{DynamicResource Add}"
+                        Command="{Binding DeleteCommand}" BorderThickness="0" Padding="8,10,10,10"/>
+            </StackPanel>
+        </Border>
+        <!--#endregion-->
+
+        <Border Background="{StaticResource Brushes.Secondary}" Margin="2,0,0,0"
+                Grid.Column="1">
+            <uc:BookSelectControl FontSize="18" SelectedBook="{Binding DataContext.CurrentBook,ElementName=root,Mode=TwoWay}" Tag="BooksView"/>
+        </Border>
+
+        <!--#region Articles -->
+        <DockPanel Grid.Column="2" VerticalAlignment="Top" Margin="16">
+            <TextBlock DockPanel.Dock="Top" FontSize="16" Margin="0,0,0,16">
+                مانده اولیه: 
+                <TextBlock Margin="8,0" Text="{Binding InitialAmount,StringFormat=\{0:N0\}}"/>
+            </TextBlock>
+            <StackPanel DockPanel.Dock="Bottom">
+                <Border Height="2" Background="RoyalBlue" Margin="8"/>
+                <Grid Margin="16,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    <c:TypeTextView Style="{StaticResource Text.DisplayField}" Type="Money" RawText="{Binding BookRemain}"
+                                    TextAlignment="Right"/>
+                    <c:TypeTextView Style="{StaticResource Text.Credit}" Grid.Column="1" 
+                                    Type="Money" RawText="{Binding SumCredit}"/>
+                    <c:TypeTextView Style="{StaticResource Text.Debit}" Type="Money" RawText="{Binding SumDebit}"
+                                    Grid.Column="2"/>
+                </Grid>
+            </StackPanel>
+            <Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ItemsControl x:Name="lstArticles" ItemsSource="{Binding Articles}" 
+                                  AlternationCount="2" ItemTemplate="{StaticResource Article.ListTemplate}"
+                                  Visibility="{DXBinding 'Articles.Count > 0?Visible:Collapsed'}">
+                        <ItemsControl.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.ContainerStyle>
+                                    <Style TargetType="{x:Type GroupItem}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate>
+                                                    <Expander Header="{Binding Name}" FontSize="14">
+                                                        <Expander.Tag>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <c:TypeTextView Style="{StaticResource Text.Credit}" Type="Money" 
+                                                                                RawText="{Binding Items,Converter={StaticResource ArticlesConverter},ConverterParameter='Credit'}"
+                                                                                Margin="16,0,0,0" FontSize="12" VerticalAlignment="Center"
+                                                                                Visibility="{Binding RawText,RelativeSource={RelativeSource Self},Converter={StaticResource Visibility.FromNumber}}"/>
+                                                                <c:TypeTextView Style="{StaticResource Text.Debit}" Type="Money" 
+                                                                                RawText="{Binding Items,Converter={StaticResource ArticlesConverter},ConverterParameter='Debit'}"
+                                                                                Margin="16,0,0,0" FontSize="12" VerticalAlignment="Center"
+                                                                                Visibility="{Binding RawText,RelativeSource={RelativeSource Self},Converter={StaticResource Visibility.FromNumber}}"/>
+                                                            </StackPanel>
+                                                        </Expander.Tag>
+                                                        <ItemsPresenter/>
+                                                    </Expander>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </GroupStyle.ContainerStyle>
+                            </GroupStyle>
+                        </ItemsControl.GroupStyle>
+                    </ItemsControl>
+                </ScrollViewer>
+                <TextBlock Text="No articles found" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                       Visibility="{Binding Visibility,ElementName=lstArticles,Converter={StaticResource Visibility.Inverse}}"/>
+            </Grid>
+        </DockPanel>
+        <!--#endregion-->
+
+        <Border Background="{StaticResource Brushes.Secondary}"
+                Grid.Column="3">
+            <StackPanel Margin="12" IsEnabled="{DXBinding 'CurrentBook != null'}">
+                <TextBlock Text="{StaticResource Book}" FontSize="18" FontWeight="Bold"
+                           Foreground="Gray"/>
+                <Border Height="1" Background="LightGray" Margin="0,8,0,16"/>
+                <TextBox x:Name="txtName" Tag="{StaticResource Book_Name}" FontSize="16"
+                         Text="{Binding CurrentBook.Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                <DockPanel Margin="0,8,0,8">
+                    <TextBlock Text="تومان" DockPanel.Dock="Right" Foreground="Gray"
+                               VerticalAlignment="Bottom" Margin="10,0,10,8"/>
+                    <TextBox x:Name="txtAmount" Tag="{StaticResource Book_InitialAmount}"  
+                             Text="{Binding CurrentBook.InitialAmount,Mode=TwoWay, StringFormat=\{0:N0\}, UpdateSourceTrigger=PropertyChanged,FallbackValue=0}"
+                             IsEnabled="{DXBinding 'CurrentBook.Children.Count == 0'}"    
+                             FontSize="16" Grid.Column="1"/>
+                </DockPanel>
+                <TextBlock Text="ماهیت" Foreground="{DynamicResource Brushes.LightForeground}" FontSize="10" Margin="8,0,0,0"/>
+                <CheckBox Style="{StaticResource CheckBox.Binary}" HorizontalAlignment="Left"
+                          IsChecked="{Binding CurrentBook.IsCredit,Mode=TwoWay}"
+                          Content="{DynamicResource Credit}" Tag="{DynamicResource Debit}"
+                          FontSize="16"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+
+</UserControl>

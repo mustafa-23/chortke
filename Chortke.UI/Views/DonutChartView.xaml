@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="Chortke.UI.Views.DonutChartView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Chortke.UI.Views"
+             xmlns:ScottPlot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
+             xmlns:ctrl="clr-namespace:Chortke.UserControls"
+             mc:Ignorable="d" 
+             Height="300" Width="300"
+             FlowDirection="LeftToRight"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             Margin="8"
+             VerticalAlignment="Top">
+
+    <UserControl.Resources>
+        <Style x:Key="Toggle.Iconic" TargetType="ToggleButton">
+            <Setter Property="Foreground" Value="Gray" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Width" Value="24" />
+            <Setter Property="Height" Value="24" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border Background="Transparent">
+                            <Viewbox Margin="{TemplateBinding Padding}">
+                                <Path Data="{Binding Content,RelativeSource={RelativeSource TemplatedParent}}"
+                                  Fill="{TemplateBinding Foreground}"/>
+                            </Viewbox>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Border CornerRadius="8" BorderBrush="{DynamicResource Brushes.LightForeground}" BorderThickness="1">
+        <Grid>
+            <ScottPlot:WpfPlot x:Name="plot" Grid.Row="1"/>
+            <Border Margin="8" VerticalAlignment="Top" CornerRadius="8">
+                <Border.Background>
+                    <SolidColorBrush Color="White" Opacity="0.5"/>
+                </Border.Background>
+                <Grid>
+                    <ToggleButton x:Name="tgbSettings" Style="{StaticResource Toggle.Iconic}" 
+                          Content="{StaticResource ic_edit}" VerticalAlignment="Top" HorizontalAlignment="Left"
+                              Padding="4"/>
+                    <TextBox Text="{Binding Title,UpdateSourceTrigger=PropertyChanged,FallbackValue='Error'}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                         BorderBrush="Transparent" Background="Transparent"/>
+                </Grid>
+            </Border>
+            <Border x:Name="ResizeBorder" BorderThickness="4" BorderBrush="Transparent" Cursor="SizeAll"
+                    MouseMove="ResizeBorder_MouseMove" Grid.RowSpan="2"/>
+            <Popup IsOpen="{Binding IsChecked,Mode=TwoWay,ElementName=tgbSettings}" StaysOpen="False"
+                   AllowsTransparency="True" PlacementTarget="{Binding ElementName=tgbSettings}">
+                <Border Background="White" CornerRadius="4" BorderBrush="Gray" BorderThickness="1"
+                        Height="300" Width="200">
+                    <DockPanel Margin="4">
+                        <ToggleButton x:Name="tgbBooks" Content="Books" DockPanel.Dock="Bottom"/>
+                        <Popup IsOpen="{Binding IsChecked,Mode=TwoWay,ElementName=tgbBooks}" StaysOpen="False"
+                               AllowsTransparency="True" PlacementTarget="{Binding ElementName=tgbBooks}">
+                            <Border Background="White" CornerRadius="4" BorderBrush="Gray" BorderThickness="1">
+                                <ctrl:BookSelectControl x:Name="bookSelect" MouseDoubleClick="bookSelect_MouseDoubleClick"
+                                                        Tag="Chart"/>
+                            </Border>
+                        </Popup>
+                        <ItemsControl ItemsSource="{Binding Books}" DisplayMemberPath="Name"/>
+                    </DockPanel>
+                </Border>
+            </Popup>
+        </Grid>
+    </Border>
+</UserControl>

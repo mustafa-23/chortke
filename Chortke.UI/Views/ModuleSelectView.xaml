@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="Chortke.UI.Views.ModuleSelectView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c="clr-namespace:Chortke.Common"
+             xmlns:local="clr-namespace:Chortke.UI.Views"
+             mc:Ignorable="d" 
+             Height="40" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <Style TargetType="RadioButton" BasedOn="{StaticResource Radio.Caption}">
+            <Setter Property="Command" Value="{Binding ChangeModuleCommand}"/>
+            <Setter Property="Background" Value="{StaticResource Brushes.Foreground}" />
+            <Setter Property="Height" Value="24" />
+            <Setter Property="VerticalAlignment" Value="Bottom" />
+            <Setter Property="Padding" Value="4" />
+            <Setter Property="Margin" Value="0,0,36,4" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid x:Name="grid" Background="{StaticResource Brushes.Secondary}">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="62,0,0,0">
+            <RadioButton Checked="RadioButton_Checked" Content="{DynamicResource Home}"
+                         CommandParameter="Home" Tag="{StaticResource ic_home}" IsChecked="True"/>
+            <RadioButton Checked="RadioButton_Checked" Content="{DynamicResource Menu_Accounting_Books}"
+                         CommandParameter="{x:Static c:Modules.Books}" Tag="{StaticResource ic_book}"/>
+            <RadioButton Checked="RadioButton_Checked" Content="{DynamicResource Documents}"
+                         CommandParameter="{x:Static c:Modules.Documents}" Tag="{StaticResource ic_file-tray}"/>
+            <RadioButton Checked="RadioButton_Checked" Content="{DynamicResource Articles}"
+                         CommandParameter="{x:Static c:Modules.Articles}" Tag="{StaticResource ic_calculator}"/>
+            <RadioButton Checked="RadioButton_Checked" Content="گزارش مانده حساب"
+                         CommandParameter="{x:Static c:Modules.BookRemainReport}" Tag="{StaticResource ic_calculator}"/>
+        </StackPanel>
+        <Canvas VerticalAlignment="Bottom">
+            <Border x:Name="border" Height="2" Width="45" Background="{StaticResource Brushes.Foreground}"
+                    Canvas.Top="-2" Canvas.Left="62"/>
+        </Canvas>
+    </Grid>
+</UserControl>

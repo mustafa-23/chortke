@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31808.319
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chortke.UI", "Chortke.UI\Chortke.UI.csproj", "{682189EF-67AE-4433-952E-A3FB865330D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chortke.Data", "Chortke.Data\Chortke.Data.csproj", "{EC94519B-A3B6-4718-97D7-1052E4A0B7BE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{682189EF-67AE-4433-952E-A3FB865330D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{682189EF-67AE-4433-952E-A3FB865330D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{682189EF-67AE-4433-952E-A3FB865330D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{682189EF-67AE-4433-952E-A3FB865330D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC94519B-A3B6-4718-97D7-1052E4A0B7BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC94519B-A3B6-4718-97D7-1052E4A0B7BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC94519B-A3B6-4718-97D7-1052E4A0B7BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC94519B-A3B6-4718-97D7-1052E4A0B7BE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9978971D-3544-4FD3-BD3D-BAE86BCFAC36}
+	EndGlobalSection
+EndGlobal

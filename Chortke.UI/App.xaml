@@ -1,0 +1,20 @@
+﻿<Application x:Class="Chortke.UI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Application.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Localizations/fa-IR.xaml"/>
+                <ResourceDictionary Source="/Moonlight;component/WPF/Resources/Common/Icons.xaml"/>
+                <ResourceDictionary Source="/Moonlight;component/WPF/Resources/Common/Styles.xaml"/>
+                <ResourceDictionary Source="/Moonlight;component/WPF/Resources/Common/CustomControls.xaml"/>
+                <ResourceDictionary Source="/Moonlight;component/WPF/Resources/XDStyle/XDTheme.xaml"/>
+                <ResourceDictionary Source="/Resources/Converters.xaml"/>
+				<ResourceDictionary Source="/Resources/CustomStyles.xaml"/>
+                <ResourceDictionary Source="/Resources/DataTemplates.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </Application.Resources>
+</Application>

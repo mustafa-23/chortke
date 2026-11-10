@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="Chortke.UI.Views.DocumentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Chortke.UI.Views"
+             xmlns:vm="clr-namespace:Chortke.UI.ViewModels"
+             xmlns:m="clr-namespace:Chortke.Models"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:moon="clr-namespace:Moonlight.WPF;assembly=Moonlight"
+             xmlns:cc="clr-namespace:Moonlight.WPF.CustomControls;assembly=Moonlight"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=vm:DocumentViewModel}"
+             d:DesignHeight="600" d:DesignWidth="800"
+             Style="{StaticResource Control.AnimatedEntrance}">
+
+    <UserControl.Resources>
+
+        <x:Array x:Key="TestArticles" Type="m:ArticleModel">
+            <m:ArticleModel Amount="10000" IsDebit="True" CreateDate="1995-06-26 10:00:00"/>
+        </x:Array>
+
+        <Style TargetType="Button" BasedOn="{StaticResource Button.Link}">
+            <Setter Property="Foreground" Value="Gray" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="16" />
+        </Style>
+
+    </UserControl.Resources>
+
+    <Border Style="{StaticResource Border.Dialog}" KeyboardNavigation.TabNavigation="Cycle">
+        <DockPanel Margin="8">
+            <StackPanel DockPanel.Dock="Top">
+                <Grid>
+                    <TextBlock Text="{DynamicResource Document}" Style="{StaticResource MainTitle}"
+                               HorizontalAlignment="Left"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <dxe:TextEdit Style="{StaticResource EditText.DateTime}" MaskType="DateTime" Mask="yyyy/MM/dd HH:mm"
+                                      dx:ThemeManager.ThemeName="Office2019Colorful"
+                                      EditValue="{Binding Document.CreateDate,Mode=TwoWay,Converter={StaticResource DateTimeToPersian}}"
+                                      MinWidth="150"/>
+                        <Button Style="{StaticResource Button.Link}" Margin="8,0"
+                                Command="{Binding AddArticleCommand}" Tag="{StaticResource ic_add-circle}">
+                            <dxmvvm:Interaction.Behaviors>
+                                <moon:FocusOnVisible/>
+                            </dxmvvm:Interaction.Behaviors>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <Border Style="{StaticResource Border.HSep}"/>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Bottom">
+                <Border Style="{StaticResource Border.HSep}"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="{DynamicResource Cancel}"
+                            Margin="0,0,8,0" Command="{Binding CancelCommand}"/>
+                    <Button x:Name="btnSave" Content="{DynamicResource Save}" Command="{Binding SaveCommand}"/>
+                </StackPanel>
+            </StackPanel>
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Bottom">
+                    <Border Style="{StaticResource Border.HSep}" 
+                            Background="RoyalBlue"/>
+                    <Grid TextBlock.FontSize="18" Margin="26,0" Height="24">
+                        <TextBlock Foreground="Green" HorizontalAlignment="Left">
+                            <Run Text="{DynamicResource Credit}"/>: <TextBlock Text="{Binding Document.Credit,StringFormat=\{0:N0\}}"/>
+                        </TextBlock>
+                        <TextBlock Text="≠" HorizontalAlignment="Center"
+                                   FontSize="20" FontWeight="Bold"
+                                   Foreground="Red" Visibility="{Binding IsEnabled,ElementName=btnSave,Converter={StaticResource Visibility.FromBoolInverse}}"/>
+                        <TextBlock Foreground="Salmon" HorizontalAlignment="Right">
+                            <Run Text="{DynamicResource Debit}"/>: <TextBlock Text="{Binding Document.Debit,StringFormat=\{0:N0\}}"/>
+                        </TextBlock>
+                    </Grid>
+                </StackPanel>
+                <TextBox DockPanel.Dock="Bottom" Tag="{StaticResource Desc}"
+                         Text="{Binding Document.Description,Mode=TwoWay}"/>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding Document.Articles}"
+                                  ItemTemplate="{StaticResource ArticleModel.EditTemplate}"
+                                  d:ItemsSource="{StaticResource TestArticles}"/>
+                </ScrollViewer>
+            </DockPanel>
+        </DockPanel>
+    </Border>
+</UserControl>

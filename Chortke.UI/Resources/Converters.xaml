@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+                    xmlns:wpf="clr-namespace:Moonlight.WPF;assembly=Moonlight"
+                    xmlns:c="clr-namespace:Chortke.UI.Common">
+    <BooleanToVisibilityConverter x:Key="Visibility.FromBool"/>
+    <dx:BooleanToVisibilityConverter x:Key="Visibility.FromBoolInverse" Inverse="True"/>
+    <dx:NumericToVisibilityConverter x:Key="Visibility.FromNumber"/>
+    <wpf:DateTimeToPersianConverter x:Key="DateTimeToPersian"/>
+    <dx:ObjectToBooleanConverter x:Key="Bool.FromNullable"/>
+    <wpf:VisibilityInverseConverter x:Key="Visibility.Inverse"/>
+    <c:IDToTitleConverter x:Key="Title.FromId"/>
+    <c:ArticlesDCConverter x:Key="ArticlesConverter"/>
+    <c:DateToPartConverter x:Key="DateToPratConverter"/>
+    <c:IsExpandedConverter x:Key="IsExpandedConverter"/>
+</ResourceDictionary>

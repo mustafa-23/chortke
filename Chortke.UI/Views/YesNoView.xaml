@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="Chortke.UI.Views.YesNoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:Chortke.UI.ViewModels"
+             mc:Ignorable="d" 
+             Height="185" Width="390"
+             d:DataContext="{d:DesignInstance Type=vm:YesNoViewModel}"
+             Style="{StaticResource Control.AnimatedEntrance}">
+    <Border Background="#F5F5F5" CornerRadius="6">
+        <Border.Effect>
+            <DropShadowEffect ShadowDepth="0" Opacity="0.5"/>
+        </Border.Effect>
+        <Grid Margin="30,40,25,30">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <DockPanel Grid.RowSpan="2">
+                <Viewbox Width="34" Height="34" VerticalAlignment="Top">
+                    <Path Data="{Binding Source={StaticResource ic_book}}"
+                          Fill="#E6A000"/>
+                </Viewbox>
+                <StackPanel Margin="30,0,0,0">
+                    <TextBlock Text="{Binding Message.Title}" FontSize="14"
+                               TextWrapping="Wrap" Margin="0,0,0,20"
+                               FontWeight="DemiBold" Foreground="#3F3F3F"/>
+                    <TextBlock Text="{Binding Message.Message}"
+                               TextWrapping="Wrap" FontSize="14"/>
+                </StackPanel>
+            </DockPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="2"
+                        HorizontalAlignment="Right" Margin="0,20,0,0">
+                <Button Style="{StaticResource Button.Link}" FontWeight="Bold"
+                        Content="{DynamicResource Yes}" Margin="20,0" Foreground="#4b4b4b"
+                        IsDefault="True" Command="{Binding CloseCommand}"
+                        CommandParameter="True"/>
+                <Button Style="{StaticResource Button.Link}" FontWeight="Bold"
+                        Content="{DynamicResource No}" Margin="20,0" Foreground="#707070"
+                        Command="{Binding CloseCommand}"
+                        CommandParameter="False"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

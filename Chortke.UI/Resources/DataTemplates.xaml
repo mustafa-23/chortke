@@ -1,0 +1,164 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:m="clr-namespace:Chortke.Models"
+                    xmlns:ctrl="clr-namespace:Chortke.UserControls"
+                    xmlns:cc="clr-namespace:Moonlight.WPF.CustomControls;assembly=Moonlight"
+                    xmlns:wpf="clr-namespace:Moonlight.WPF;assembly=Moonlight" 
+                    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors">
+
+    <HierarchicalDataTemplate x:Key="Book.HierarchialTemplate" 
+                              DataType="{x:Type m:BookModel}" ItemsSource="{Binding Children}">
+        <TextBlock Text="{Binding Name}" />
+    </HierarchicalDataTemplate>
+
+    <!--#region ArticleModel -->
+    <DataTemplate x:Key="ArticleModel.EditTemplate" DataType="{x:Type m:ArticleModel}">
+        <Border x:Name="Border" BorderBrush="LightGray" Background="{DynamicResource Brushes.Secondary}"
+                BorderThickness="1" CornerRadius="8" Margin="0,0,0,4">
+            <Border.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="{DynamicResource Delete}" Command="{Binding DeleteCommand}">
+                        <MenuItem.Icon>
+                            <Label Style="{StaticResource Label.IconHolder}" Content="{StaticResource ic_trash}"
+                                   Foreground="Salmon"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="{DynamicResource Calculate}" 
+                              Command="{Binding ExtractAmountFromDescCommand}">
+                        <MenuItem.Icon>
+                            <Label Style="{StaticResource Label.IconHolder}" Content="{StaticResource ic_calculator}"
+                                   Foreground="LightBlue"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </Border.ContextMenu>
+            <StackPanel Margin="4">
+                <Grid Margin="8,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Ellipse x:Name="DCIndicator" Width="18" Height="18" Margin="4,0">
+                        <Ellipse.Fill>
+                            <RadialGradientBrush GradientOrigin=".5,.5">
+                                <GradientStop Color="Lime"/>
+                                <GradientStop Color="Green" Offset="0.7"/>
+                            </RadialGradientBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <ToggleButton IsChecked="{Binding IsDebit,Mode=TwoWay}" Opacity="0" Cursor="Hand"/>
+                    <TextBox Text="{Binding Amount, Mode=TwoWay, StringFormat=\{0:N0\}, UpdateSourceTrigger=PropertyChanged,FallbackValue=0}"
+                             FontSize="16" Grid.Column="1" Margin="4,0"/>
+                    <ToggleButton x:Name="tgbBook" Content="{Binding Book.Name,TargetNullValue='انتخاب دفتر حسابداری'}"
+                                  Grid.Column="2" Margin="4,0" ToolTip="{Binding Book.FullPath}"/>
+                    <Popup IsOpen="{Binding IsChecked,ElementName=tgbBook,Mode=TwoWay}" StaysOpen="False"
+                               PlacementTarget="{Binding ElementName=tgbBook}" Placement="Bottom"
+                               AllowsTransparency="True">
+                        <Border CornerRadius="8" Background="White" MinWidth="200">
+                            <ctrl:BookSelectControl Height="200" FontSize="12" Tag="ArticleModel"
+                                                    SelectedBook="{Binding DataContext.Book,ElementName=Border,Mode=TwoWay}"/>
+                        </Border>
+                    </Popup>
+
+                    <dxe:TextEdit Style="{StaticResource EditText.DateTime}" Grid.Column="3" Margin="4,0,0,0" Width="100"
+                                  EditValue="{Binding CreateDate,Mode=TwoWay,Converter={StaticResource DateTimeToPersian}}"/>
+                </Grid>
+                <TextBox Text="{Binding Description,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="24" Margin="6,0"/>
+            </StackPanel>
+        </Border>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsDebit}" Value="True">
+                <Setter TargetName="DCIndicator" Property="Fill">
+                    <Setter.Value>
+                        <RadialGradientBrush GradientOrigin=".5,.5">
+                            <GradientStop Color="IndianRed" Offset="0.3"/>
+                            <GradientStop Color="Red" Offset="0.4"/>
+                            <GradientStop Color="DarkRed" Offset="0.9"/>
+                        </RadialGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type m:ArticleModel}">
+        <Border x:Name="Border" CornerRadius="16" Margin="2,4" Height="36">
+            <DockPanel Margin="16,12,16,8" VerticalAlignment="Center">
+                <Grid DockPanel.Dock="Right" Width="250">
+                    <TextBlock x:Name="txtAmount" Text="{Binding Amount,StringFormat=\{0:C0\}}"
+                                FontSize="18" Foreground="Green" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="txtIndex" Text="{Binding Path=(ItemsControl.AlternationIndex),RelativeSource={RelativeSource TemplatedParent}}"
+                                   Visibility="Collapsed"/>
+                </Grid>
+                <TextBlock Text="{Binding Book.Name}" VerticalAlignment="Center"
+                               FontSize="16" ToolTip="{Binding Book.FullPath}"/>
+                <TextBlock Text="{Binding Description}" VerticalAlignment="Center"
+                               FontSize="14" HorizontalAlignment="Center"/>
+            </DockPanel>
+        </Border>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsDebit}" Value="True">
+                <Setter TargetName="txtAmount" Property="Foreground" Value="Red" />
+                <Setter TargetName="txtAmount" Property="HorizontalAlignment" Value="Right" />
+            </DataTrigger>
+            <Trigger SourceName="txtIndex" Property="Text" Value="0">
+                <Setter TargetName="Border" Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Color="White" Opacity="0.2"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+    <!--#endregion-->
+
+    <DataTemplate DataType="{x:Type m:DocumentModel}">
+        <Grid Margin="1,0" Width="30">
+            <TextBlock Text="{Binding CreateDate, Converter={StaticResource DateTimeToPersian},ConverterParameter='d'}"
+                       HorizontalAlignment="Center"/>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="Article.List" DataType="{x:Type m:ArticleModel}">
+        <Border x:Name="Border" CornerRadius="16" Margin="2,4" Height="36">
+            <Grid Margin="16,12,16,8" VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="125"/>
+                    <ColumnDefinition Width="125"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding Book.Name}" VerticalAlignment="Center"
+                               ToolTip="{Binding Book.FullPath}"/>
+                <TextBlock Grid.Column="1" Text="{Binding CreateDate,Converter={StaticResource DateTimeToPersian}}" VerticalAlignment="Center"
+                               />
+                <TextBlock Grid.Column="2" Text="{Binding Description}" TextTrimming="CharacterEllipsis"
+                               Margin="8,0"
+                               VerticalAlignment="Center" HorizontalAlignment="Left"/>
+
+                <TextBlock x:Name="txtAmount" Text="{Binding Amount,StringFormat=\{0:C0\}}"
+                               FontSize="18" Foreground="Green" VerticalAlignment="Center"
+                               Grid.Column="3"/>
+                <TextBlock x:Name="txtIndex" Text="{Binding (ItemsControl.AlternationIndex),RelativeSource={RelativeSource TemplatedParent}}"
+                               Visibility="Collapsed"/>
+            </Grid>
+        </Border>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsDebit}" Value="True">
+                <Setter TargetName="txtAmount" Property="Foreground" Value="Red" />
+                <Setter TargetName="txtAmount" Property="Grid.Column" Value="4" />
+            </DataTrigger>
+            <Trigger SourceName="txtIndex" Property="Text" Value="0">
+                <Setter TargetName="Border" Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Color="White" Opacity="0.2"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+</ResourceDictionary>

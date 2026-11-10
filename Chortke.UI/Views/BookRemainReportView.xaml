@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="Chortke.UI.Views.BookRemainReportView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c="clr-namespace:Chortke.Common"
+             xmlns:local="clr-namespace:Chortke.UI.Views"
+             xmlns:vm="clr-namespace:Chortke.UI.ViewModels"
+             xmlns:ctrl="clr-namespace:Chortke.UserControls"
+             xmlns:wpf="clr-namespace:Moonlight.WPF;assembly=Moonlight"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type={x:Type vm:BookRemainReportViewModel}}"
+             d:DesignHeight="450" d:DesignWidth="800"
+             x:Name="parent">
+    
+    <Grid Visibility="{Binding Visibility}" Background="{StaticResource Brushes.Primary}">
+        <DockPanel>
+            <!--#region Report Settings -->
+            <Border DockPanel.Dock="Top" Background="{StaticResource Brushes.Secondary}" CornerRadius="8" Margin="8"
+                    BorderBrush="{StaticResource Brushes.Primary}" BorderThickness="1">
+                <Grid Margin="4">
+                    <StackPanel Orientation="Horizontal">
+                        <ToggleButton x:Name="tgbBooks" Content="{Binding SelectedBook.FullPath,FallbackValue='انتخاب دفتر'}"
+                                      Padding="8,0"/>
+                        <Popup IsOpen="{Binding IsChecked,Mode=TwoWay,ElementName=tgbBooks}" AllowsTransparency="True"
+                               StaysOpen="False">
+                            <Border Background="{StaticResource Brushes.Secondary}" CornerRadius="8"
+                                    BorderBrush="{StaticResource Brushes.Primary}" BorderThickness="1">
+                                <ctrl:BookSelectControl SelectedBook="{Binding DataContext.SelectedBook,ElementName=parent,Mode=TwoWay}" Tag="BookRemainReportView"/>
+                            </Border>
+                        </Popup>
+                        <Label Content="To Date" Margin="16,0,0,0"/>
+                        <TextBox Width="150" FontSize="14" Text="{Binding Filter.ToDate,Mode=TwoWay,Converter={StaticResource DateTimeToPersian}}"/>
+                    </StackPanel>
+                    <Button Content="گزارش" HorizontalAlignment="Right" Background="{StaticResource Brushes.Primary}"
+                            Width="75" Margin="0,0,8,0" Command="{Binding SearchCommand}"/>
+                </Grid>
+            </Border>
+            <!--#endregion-->
+
+            <!--#region Summary -->
+            <StackPanel Grid.Row="3" Margin="46,8,40,16" DockPanel.Dock="Bottom">
+                <Border Height="1" Background="{DynamicResource Brushes.Accent}" Margin="0,0,0,16"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <c:TypeTextView Style="{StaticResource Text.DisplayField}" Grid.Column="0" Type="Money" RawText="{Binding Remain}"
+                                    TextAlignment="Right"/>
+                    <c:TypeTextView Style="{StaticResource Text.Credit}" Grid.Column="1" Type="Money" RawText="{Binding TotalCredit}"
+                                    Margin="0,0,40,0"/>
+                    <c:TypeTextView Style="{StaticResource Text.Debit}" Grid.Column="2" Type="Money" RawText="{Binding TotalDebit}"/>
+                </Grid>
+            </StackPanel>
+            <!--#endregion-->
+
+            <ScrollViewer Margin="16,32" Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Articles}" d:ItemsSource="{StaticResource Articles}"
+                              ItemTemplate="{StaticResource Article.List}"
+                              AlternationCount="2"/>
+            </ScrollViewer>
+            
+        </DockPanel>
+        <Border x:Name="loading" Visibility="{Binding IsLoading,Converter={StaticResource Visibility.FromBool}}">
+            <Border.Background>
+                <SolidColorBrush Color="{StaticResource Colors.Primary}" Opacity="0.5"/>
+            </Border.Background>
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Loading Data..."/>
+        </Border>
+    </Grid>
+    
+</UserControl>
+
