@@ -37,10 +37,8 @@
                     <TextBlock Text="{DynamicResource Document}" Style="{StaticResource MainTitle}"
                                HorizontalAlignment="Left"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <dxe:TextEdit Style="{StaticResource EditText.DateTime}" MaskType="DateTime" Mask="yyyy/MM/dd HH:mm"
-                                      dx:ThemeManager.ThemeName="Office2019Colorful"
-                                      EditValue="{Binding Document.CreateDate,Mode=TwoWay,Converter={StaticResource DateTimeToPersian}}"
-                                      MinWidth="150"/>
+                        <dxe:TextEdit Style="{StaticResource EditText.DateTime}"
+                                      EditValue="{Binding Document.CreateDate,Mode=TwoWay,Converter={StaticResource DateTimeToPersian}}"/>
                         <Button Style="{StaticResource Button.Link}" Margin="8,0"
                                 Command="{Binding AddArticleCommand}" Tag="{StaticResource ic_add-circle}">
                             <dxmvvm:Interaction.Behaviors>
