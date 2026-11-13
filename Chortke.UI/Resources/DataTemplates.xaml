@@ -4,7 +4,10 @@
                     xmlns:ctrl="clr-namespace:Chortke.UserControls"
                     xmlns:cc="clr-namespace:Moonlight.WPF.CustomControls;assembly=Moonlight"
                     xmlns:wpf="clr-namespace:Moonlight.WPF;assembly=Moonlight" 
-                    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors">
+                    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+                    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                    xmlns:b="http://schemas.microsoft.com/xaml/behaviors">
 
     <HierarchicalDataTemplate x:Key="Book.HierarchialTemplate" 
                               DataType="{x:Type m:BookModel}" ItemsSource="{Binding Children}">
@@ -65,10 +68,36 @@
                     <dxe:TextEdit Style="{StaticResource EditText.DateTime}" Grid.Column="3" Margin="4,0,0,0" Width="100"
                                   EditValue="{Binding CreateDate,Mode=TwoWay,Converter={StaticResource DateTimeToPersian}}"/>
                 </Grid>
-                <TextBox Text="{Binding Description,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="24" Margin="6,0"/>
+                <DockPanel Margin="8,0">
+                    <ItemsControl x:Name="tags" ItemsSource="{Binding Tag,Converter={StaticResource StringToList}}" DockPanel.Dock="Right"
+                                  Margin="4,0,0,0">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="{DynamicResource Brushes.LightForeground}" CornerRadius="8"
+                                        Margin="2,0" Height="18">
+                                    <TextBlock Text="{Binding}" Margin="4,0" Foreground="White" 
+                                               FontSize="10" VerticalAlignment="Center"/>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <TextBox Text="{Binding Description,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="24">
+                        <dxmvvm:Interaction.Behaviors>
+                            <dxmvvm:KeyToCommand EventName="PreviewKeyDown" KeyGesture="Enter" Command="{Binding AddTagCommand}" MarkRoutedEventsAsHandled="True"/>
+                        </dxmvvm:Interaction.Behaviors>
+                    </TextBox>
+                </DockPanel>
             </StackPanel>
         </Border>
         <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Tag}" Value="">
+                <Setter TargetName="tags" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
             <DataTrigger Binding="{Binding IsDebit}" Value="True">
                 <Setter TargetName="DCIndicator" Property="Fill">
                     <Setter.Value>
@@ -93,9 +122,11 @@
                                    Visibility="Collapsed"/>
                 </Grid>
                 <TextBlock Text="{Binding Book.Name}" VerticalAlignment="Center"
-                               FontSize="16" ToolTip="{Binding Book.FullPath}"/>
+                           FontSize="16" ToolTip="{Binding Book.FullPath}"/>
                 <TextBlock Text="{Binding Description}" VerticalAlignment="Center"
-                               FontSize="14" HorizontalAlignment="Center"/>
+                           FontSize="14" HorizontalAlignment="Center"
+                           ToolTip="{Binding Description}"
+                           Margin="8,0" TextTrimming="CharacterEllipsis"/>
             </DockPanel>
         </Border>
         <DataTemplate.Triggers>

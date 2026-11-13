@@ -9,7 +9,7 @@ public class Article
 	public int BookId { get; set; }
 	public int DocumentId { get; set; }
 	public string? Description { get; set; }
-	public string Tag { get; set; } = string.Empty;
+	public string? Tag { get; set; } = string.Empty;
 
 	public Book Book { get; set; } = default!;
 	public Document Document { get; set; } = default!;

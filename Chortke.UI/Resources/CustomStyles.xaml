@@ -4,6 +4,10 @@
                     xmlns:wpf="clr-namespace:Moonlight.WPF;assembly=Moonlight"
                     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors">
 
+    <Style TargetType="ToolTip">
+        <Setter Property="FontFamily" Value="{DynamicResource DefaultFont}" />
+    </Style>
+
     <!--#region TextStyle -->
     <Style x:Key="Text.DisplayField" TargetType="TextBlock">
         <Setter Property="FontSize" Value="18"/>

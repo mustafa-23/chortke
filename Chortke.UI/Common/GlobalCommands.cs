@@ -22,7 +22,7 @@ namespace Chortke.Common
 				try
 				{
 					File.Copy("chortke.db", $"{currentYear - 1}.db");
-					BookRepository.Instance.CloseBooks();
+					BookRepository.CloseBooks();
 					MessageBox.Show("عملیات بستن دفاتر با موفقیت انجام شد", "پیغام", MessageBoxButton.OK, MessageBoxImage.Information);
 				}
 				catch (Exception ex)

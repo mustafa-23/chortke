@@ -138,9 +138,24 @@ public class BookRepository : BindableBase
 			MessageBox.Show("حذف دفتر با وجود فرزند امکان پذیر نیست", "خطا", MessageBoxButton.OK, MessageBoxImage.Error);
 		}
 	}
-	public BookModel GetBook(int id) => _flatBooks.Find(b => b.Id == id) ?? default!;
+	public BookModel GetBook(int id)
+	{
+		BookModel book;
+		if (_flatBooks.Any(x => x.Id == id))
+			book = _flatBooks.First(x => x.Id == id);
+		else
+		{
+			book = DBHandler.GetBook(id)?.Map<BookModel>();
+			if (book != null)
+				_flatBooks.Add(book);
+		}
+		return book;
+	}
 	public IEnumerable<BookModel> GetBooksByIds(IEnumerable<int> Ids) => _flatBooks.Join(Ids, a => a.Id, b => b, (a, b) => a);
-	public void CloseBooks()
+	/// <summary>
+	/// دفاتر حسابداری رو میبنده و مانده ها برزو رسانی میشه همچنین اسناد و موارد سند ها حذف می شود.
+	/// </summary>
+	public static void CloseBooks()
 	{
 		var books = DBHandler.GetLeaves();
 		foreach (Book book in books)

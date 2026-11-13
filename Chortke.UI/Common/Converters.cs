@@ -86,4 +86,20 @@ namespace Chortke.UI.Common
 			throw new NotImplementedException();
 		}
 	}
+
+	[ValueConversion(typeof(string), typeof(string[]))]
+	public class StringToListConverter : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if (value is string str && !string.IsNullOrEmpty(str))
+				return str.Split(';').Where(x => !string.IsNullOrEmpty(x));
+			return null;
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

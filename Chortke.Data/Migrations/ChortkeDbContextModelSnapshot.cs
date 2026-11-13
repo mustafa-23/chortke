@@ -15,7 +15,7 @@ namespace Chortke.Data.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
+            modelBuilder.HasAnnotation("ProductVersion", "10.0.13");
 
             modelBuilder.Entity("Chortke.Data.Article", b =>
                 {
@@ -43,7 +43,6 @@ namespace Chortke.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Tag")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 

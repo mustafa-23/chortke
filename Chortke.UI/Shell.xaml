@@ -13,7 +13,7 @@
         Height="768" Width="1024"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanResizeWithGrip"
-        FontFamily="Vazir FD-WOL"
+        FontFamily="{DynamicResource DefaultFont}"
         FlowDirection="LeftToRight"
         DataContext="{x:Static c:MyModuleManager.Instance}">
 

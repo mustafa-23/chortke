@@ -13,4 +13,5 @@
     <c:ArticlesDCConverter x:Key="ArticlesConverter"/>
     <c:DateToPartConverter x:Key="DateToPratConverter"/>
     <c:IsExpandedConverter x:Key="IsExpandedConverter"/>
+    <c:StringToListConverter x:Key="StringToList"/>
 </ResourceDictionary>

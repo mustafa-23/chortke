@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
                     xmlns:s="clr-namespace:System;assembly=System.Runtime">
 
+    <FontFamily x:Key="DefaultFont">Vazir FD-WOL</FontFamily>
     <FlowDirection x:Key="FlowDir">RightToLeft</FlowDirection>
 
     <!--#region Menus -->

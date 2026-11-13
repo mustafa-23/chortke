@@ -87,6 +87,8 @@ namespace Chortke.UI.ViewModels
 				});
 				Document = doc;
 			}
+			if (oldValue is DocumentModel oldDoc)
+				oldDoc.Articles.ForEach(x => x.PropertyChanged -= Article_PropertyChanged);
 		}
 		#endregion
 	}

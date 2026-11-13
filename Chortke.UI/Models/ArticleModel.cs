@@ -47,6 +47,25 @@ namespace Chortke.Models
 					Amount = values.Where(x => x >= 1000).Sum() + values.Where(x => x < 1000).Sum(x => x * 1000);
 			}
 		}
+		public ICommand AddTagCommand => new DelegateCommand(AddTag);
+		private void AddTag()
+		{
+			if (string.IsNullOrEmpty(Description))
+				return;
+
+			var index = Description.LastIndexOf(' ');
+			if (index != -1)
+			{
+				var tag = Description[index..].Trim();
+				Description = Description[..index];
+				Tag += $"{tag};";
+			}
+			else
+			{
+				Tag += $"{Description};";
+				Description = string.Empty;
+			}
+		}
 		#endregion
 
 		[GeneratedRegex(@"\$[\d]+")]
