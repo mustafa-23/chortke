@@ -41,9 +41,11 @@ public class FooterViewModel : Moonlight.MVVM.ViewModelBase<FooterViewModel>
 	{
 		if (e.PropertyName == nameof(SelectedDBFile))
 		{
-			DBHandler.ChangeDb(SelectedDBFile);
 			if (!firstRun)
+			{
+				DBHandler.ChangeDb(SelectedDBFile);
 				await BookRepository.Instance.InitializeAsync();
+			}
 			firstRun = false;
 		}
 	}

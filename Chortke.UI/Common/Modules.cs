@@ -12,5 +12,6 @@
         public static string Articles => nameof(Articles);
         public static string Document => nameof(Document);
         public static string YesNo => nameof(YesNo);
+        public static string Logs => nameof(Logs);
     }
 }

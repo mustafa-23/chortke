@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace Chortke.Data;
 
 public static class DBHandler
 {
+	private static string log = string.Empty;
 	private static string _dbName = "chortke.db";
 #if DEBUG
 	private static string DBPath => _dbName;
@@ -17,22 +19,20 @@ public static class DBHandler
 		Initialize();
 	}
 	private static readonly ChortkeDbContextFactory _factory = new(DBPath);
-	public static void Initialize()
-	{
-		EnsureDatabaseDirectoryExists();
-		using var context = _factory.CreateDbContext();
-		context.Database.Migrate();
-	}
 
-	private static TResult ExecuteWithContext<TResult>(Func<ChortkeDbContext, TResult> operation)
+	private static TResult ExecuteWithContext<TResult>(Func<ChortkeDbContext, TResult> operation, [CallerMemberName] string caller = "")
 	{
 		ArgumentNullException.ThrowIfNull(operation);
+		if (!string.IsNullOrEmpty(caller))
+			Log($"{caller} called");
 		using var context = _factory.CreateDbContext();
 		return operation(context);
 	}
-	private static async Task<TResult> ExecuteWithContextAsync<TResult>(Func<ChortkeDbContext, Task<TResult>> operation)
+	private static async Task<TResult> ExecuteWithContextAsync<TResult>(Func<ChortkeDbContext, Task<TResult>> operation, [CallerMemberName] string caller = "")
 	{
 		ArgumentNullException.ThrowIfNull(operation);
+		if (!string.IsNullOrEmpty(caller))
+			Log($"{caller} called");
 		await using var context = _factory.CreateDbContext();
 		return await operation(context);
 	}
@@ -266,16 +266,33 @@ public static class DBHandler
 	{
 		ArgumentException.ThrowIfNullOrWhiteSpace(dbName);
 
+		Log($"changing dbName to '{dbName}'.");
 		_dbName = dbName;
 		_factory.ChangeDatabase(DBPath);
 
 		Initialize();
 	}
+	public static void Initialize()
+	{
+		EnsureDatabaseDirectoryExists();
+		using var context = _factory.CreateDbContext();
+		Log("migrating database");
+		context.Database.Migrate();
+	}
 	private static void EnsureDatabaseDirectoryExists()
 	{
+		Log($"Ensuring '{DBPath}' exist.");
 		var directory = Path.GetDirectoryName(DBPath);
 
 		if (!string.IsNullOrEmpty(directory))
 			Directory.CreateDirectory(directory);
 	}
+
+	public static void Log(string message)
+	{
+		log += $"{DateTime.Now}: {message}\n";
+	}
+	public static string GetLog() => log;
+
+	public static void ClearLog() => log = string.Empty;
 }

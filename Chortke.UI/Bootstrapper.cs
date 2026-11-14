@@ -25,6 +25,7 @@ public class Bootstrapper : BootstrapperBase
 
 		MyModuleManager.DefaultManager.Register(Regions.Topmost, DocumentViewModel.GetModule(Modules.Document, typeof(Views.DocumentView)));
 		MyModuleManager.DefaultManager.Register(Regions.Topmost, YesNoViewModel.GetModule(Modules.YesNo, typeof(Views.YesNoView)));
+		MyModuleManager.DefaultManager.Register(Regions.Topmost, LogsViewModel.GetModule(Modules.Logs, typeof(Views.LogsView)));
 
 		MyModuleManager.DefaultManager.Register(Regions.Header, ControlBoxViewModel.GetModule(Modules.ControlBox, typeof(Views.ControlBoxView)));
 		MyModuleManager.DefaultManager.Register(Regions.Footer, FooterViewModel.GetModule(Modules.Footer, typeof(Views.FooterView)));

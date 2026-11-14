@@ -203,6 +203,7 @@
                 </MenuItem>
                 <MenuItem Header="{DynamicResource Menu_Action}">
                     <MenuItem Header="{DynamicResource Menu_Action_CloseBooks}" Command="{x:Static cmn:GlobalCommands.CloseBooks}"/>
+                    <MenuItem Header="{DynamicResource Menu_Action_ShowLogs}" Command="{x:Static cmn:GlobalCommands.ShowLog}"/>
                 </MenuItem>
                 <MenuItem Header="{DynamicResource Menu_Help}">
                     <MenuItem Header="{DynamicResource Menu_Help_About}"/>

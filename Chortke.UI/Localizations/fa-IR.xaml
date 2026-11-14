@@ -11,6 +11,7 @@
 
     <s:String x:Key="Menu_Action">عملیات</s:String>
     <s:String x:Key="Menu_Action_CloseBooks">بستن دفاتر آخر سال</s:String>
+    <s:String x:Key="Menu_Action_ShowLogs">نمایش تاریخچه دیتابیس</s:String>
 
     <s:String x:Key="Menu_Accounting">حسابداری</s:String>
     <s:String x:Key="Menu_Accounting_Books">دفاتر</s:String>

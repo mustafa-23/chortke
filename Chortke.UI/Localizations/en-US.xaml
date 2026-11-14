@@ -11,6 +11,7 @@
 
     <s:String x:Key="Menu_Action">Action</s:String>
     <s:String x:Key="Menu_Action_CloseBooks">Close Books</s:String>
+    <s:String x:Key="Menu_Action_ShowLogs">Show Database Logs</s:String>
 
     <s:String x:Key="Menu_Accounting">Accounting</s:String>
     <s:String x:Key="Menu_Accounting_Books">Books</s:String>

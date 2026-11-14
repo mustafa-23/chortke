@@ -15,7 +15,7 @@
                 <ComboBox ItemsSource="{Binding DBFiles}" MinWidth="70" VerticalAlignment="Center"
                   SelectedItem="{Binding SelectedDBFile}"/>
             </StackPanel>
-            <TextBlock HorizontalAlignment="Right" Text="v1.3.0" VerticalAlignment="Center" Margin="0,0,16,0"/>
+            <TextBlock HorizontalAlignment="Right" Text="v1.4.0" VerticalAlignment="Center" Margin="0,0,16,0"/>
         </Grid>
     </Border>
 </UserControl>
